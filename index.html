@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhoneMarket - Katta telefon do‘koni</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: #f4f6fb;
+    color: #172033;
+}
+
+header {
+    background: #101827;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    color: #38bdf8;
+    font-size: 27px;
+    font-weight: 900;
+}
+
+nav {
+    display: flex;
+    gap: 22px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+nav a:hover { color: #38bdf8; }
+
+#cart {
+    background: #1e293b;
+    color: #38bdf8;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.hero {
+    min-height: 430px;
+    background:
+    radial-gradient(circle at 80% 20%, #38bdf855, transparent 30%),
+    linear-gradient(120deg, #101827, #1d4ed8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero small {
+    color: #bae6fd;
+    background: #ffffff20;
+    padding: 10px 20px;
+    border-radius: 30px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(35px, 6vw, 65px);
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.hero h1 span { color: #38bdf8; }
+
+.hero p {
+    color: #dbeafe;
+    margin-bottom: 30px;
+}
+
+.hero button {
+    background: #38bdf8;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.container {
+    padding: 65px 6%;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.title h2 {
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.title p {
+    color: #8993a4;
+    margin-top: 10px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.stat {
+    background: white;
+    padding: 22px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid #edf0f5;
+}
+
+.stat h2 {
+    color: #2563eb;
+    font-size: 25px;
+}
+
+.stat p {
+    color: #8993a4;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.filters input,
+.filters select {
+    width: 230px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    outline: none;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+.categories button {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 10px 17px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.categories button:hover,
+.categories button.active {
+    background: #172554;
+    color: white;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid #edf0f5;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px #0002;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    transition: .3s;
+}
+
+.card:hover img {
+    transform: scale(1.06);
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #2563eb;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.brand {
+    display: inline-block;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 6px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin: 12px 0;
+}
+
+.spec {
+    font-size: 12px;
+    color: #8993a4;
+    line-height: 1.7;
+}
+
+.price {
+    color: #2563eb;
+    font-size: 19px;
+    font-weight: 900;
+    margin: 17px 0;
+}
+
+.card button {
+    width: 100%;
+    padding: 12px;
+    background: #172554;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.card button:hover {
+    background: #2563eb;
+}
+
+.empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 50px;
+    color: #8993a4;
+}
+
+.services {
+    padding: 0 6% 65px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.service {
+    background: white;
+    padding: 28px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.service div {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.service p {
+    color: #8993a4;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+footer {
+    background: #101827;
+    color: white;
+    padding: 45px 20px;
+    text-align: center;
+    line-height: 2.2;
+}
+
+footer h2 { color: #38bdf8; }
+
+#toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #172554;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .3s;
+    pointer-events: none;
+    z-index: 200;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media(max-width:750px) {
+    header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container { padding: 45px 4%; }
+
+    .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .card { padding: 11px; }
+
+    .card img { height: 130px; }
+
+    .card h3 { font-size: 13px; }
+
+    .price { font-size: 15px; }
+
+    .card button { font-size: 11px; }
+
+    .filters input,
+    .filters select {
+        width: 100%;
+    }
+}
+
+@media(max-width:360px) {
+    .products { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">📱 PhoneMarket</div>
+
+    <nav>
+        <a href="#">Bosh sahifa</a>
+        <a href="#phones">Katalog</a>
+        <a href="#services">Xizmatlar</a>
+        <a href="#contact">Aloqa</a>
+    </nav>
+
+    <div id="cart" onclick="showCart()">
+        🛒 Savat: 0
+    </div>
+</header>
+
+<section class="hero">
+    <small>⚡ KATTA SMARTFONLAR MARKAZI</small>
+
+    <h1>Eng zo‘r telefonlar <span>bir joyda!</span></h1>
+
+    <p>Original smartfonlar, zamonaviy texnologiyalar va qulay narxlar.</p>
+
+    <button onclick="document.getElementById('phones').scrollIntoView()">
+        Katalogni ko‘rish →
+    </button>
+</section>
+
+<section class="container" id="phones">
+
+    <div class="title">
+        <h2>📱 Barcha telefonlar</h2>
+        <p>O‘zingizga yoqqan modelni tanlang</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <h2 id="totalPhones">0</h2>
+            <p>Telefon modellari</p>
+        </div>
+
+        <div class="stat">
+            <h2>14+</h2>
+            <p>Telefon brendlari</p>
+        </div>
+
+        <div class="stat">
+            <h2>24/7</h2>
+            <p>Onlayn katalog</p>
+        </div>
+
+        <div class="stat">
+            <h2>100%</h2>
+            <p>Qulay xarid</p>
+        </div>
+    </div>
+
+    <div class="filters">
+        <input
+            id="search"
+            type="text"
+            placeholder="🔍 Telefon modelini qidiring..."
+            oninput="filterPhones()"
+        >
+
+        <select id="brand" onchange="filterPhones()">
+            <option value="all">Barcha brendlar</option>
+        </select>
+
+        <select id="sort" onchange="filterPhones()">
+            <option value="default">Saralash</option>
+            <option value="low">Arzonidan boshlab</option>
+            <option value="high">Qimmatidan boshlab</option>
+        </select>
+    </div>
+
+    <div class="categories" id="categories"></div>
+
+    <div class="products" id="products"></div>
+
+</section>
+
+<section class="services" id="services">
+
+    <div class="service">
+        <div>🚚</div>
+        <h3>Tezkor yetkazish</h3>
+        <p>Buyurtmalarni manzilingizga yetkazamiz.</p>
+    </div>
+
+    <div class="service">
+        <div>🛡️</div>
+        <h3>Kafolat</h3>
+        <p>Mahsulotlar uchun kafolat xizmati.</p>
+    </div>
+
+    <div class="service">
+        <div>💳</div>
+        <h3>Qulay to‘lov</h3>
+        <p>O‘zingizga qulay to‘lov usulini tanlang.</p>
+    </div>
+
+</section>
+
+<footer id="contact">
+    <h2>📱 PhoneMarket</h2>
+    <p>Telefon: +998 90 123 45 67</p>
+    <p>Telegram: @PhoneMarket</p>
+    <p>© 2026 PhoneMarket. Barcha huquqlar himoyalangan.</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+
+const phones = [
+
+    // APPLE
+    ["iPhone 17 Pro Max","Apple","256GB | 12GB RAM",19000000,"iphone-17-pro-max-1.jpg","YANGI"],
+    ["iPhone 17 Pro","Apple","256GB | 12GB RAM",16500000,"iphone-17-pro-1.jpg","YANGI"],
+    ["iPhone 17","Apple","256GB | 8GB RAM",12500000,"iphone-17-1.jpg","YANGI"],
+    ["iPhone 16 Pro Max","Apple","256GB | 8GB RAM",18000000,"iphone-16-pro-max-1.jpg","TOP"],
+    ["iPhone 16 Pro","Apple","256GB | 8GB RAM",14500000,"iphone-16-pro-1.jpg","TOP"],
+    ["iPhone 16 Plus","Apple","128GB | 8GB RAM",11500000,"iphone-16-plus-1.jpg","TOP"],
+    ["iPhone 16","Apple","128GB | 8GB RAM",10500000,"iphone-16-1.jpg",""],
+    ["iPhone 15 Pro Max","Apple","256GB | 8GB RAM",13500000,"iphone-15-pro-max-1.jpg","TOP"],
+    ["iPhone 15 Pro","Apple","256GB | 8GB RAM",12500000,"iphone-15-pro-1.jpg",""],
+    ["iPhone 15","Apple","128GB | 6GB RAM",8500000,"iphone-15-1.jpg",""],
+    ["iPhone 14 Pro Max","Apple","256GB | 6GB RAM",10500000,"iphone-14-pro-max-1.jpg",""],
+    ["iPhone 14","Apple","128GB | 6GB RAM",7000000,"iphone-14-1.jpg",""],
+
+    // SAMSUNG
+    ["Samsung S26 Ultra","Samsung","256GB | 12GB RAM",17500000,"samsung-galaxy-s26-ultra-1.jpg","YANGI"],
+    ["Samsung S26+","Samsung","256GB | 12GB RAM",14000000,"samsung-galaxy-s26-plus-1.jpg","YANGI"],
+    ["Samsung S26","Samsung","256GB | 12GB RAM",12000000,"samsung-galaxy-s26-1.jpg","YANGI"],
+    ["Samsung S25 Ultra","Samsung","256GB | 12GB RAM",15500000,"samsung-galaxy-s25-ultra-5.jpg","TOP"],
+    ["Samsung S25+","Samsung","256GB | 12GB RAM",12000000,"samsung-galaxy-s25-plus-1.jpg",""],
+    ["Samsung S25","Samsung","256GB | 12GB RAM",10500000,"samsung-galaxy-s25-1.jpg",""],
+    ["Samsung S24 Ultra","Samsung","256GB | 12GB RAM",11500000,"samsung-galaxy-s24-ultra-1.jpg",""],
+    ["Samsung Z Fold7","Samsung","256GB | 12GB RAM",22000000,"samsung-galaxy-z-fold7-1.jpg",""],
+    ["Samsung Z Flip7","Samsung","256GB | 12GB RAM",12500000,"samsung-galaxy-z-flip7-1.jpg",""],
+    ["Samsung A56","Samsung","256GB | 8GB RAM",5000000,"samsung-galaxy-a56-5g-1.jpg",""],
+    ["Samsung A36","Samsung","128GB | 8GB RAM",3800000,"samsung-galaxy-a36-5g-1.jpg",""],
+    ["Samsung A26","Samsung","128GB | 6GB RAM",3000000,"samsung-galaxy-a26-5g-1.jpg",""],
+
+    // XIAOMI / REDMI / POCO
+    ["Xiaomi 17 Ultra","Xiaomi","512GB | 16GB RAM",14000000,"xiaomi-17-ultra-1.jpg","YANGI"],
+    ["Xiaomi 17 Pro","Xiaomi","256GB | 12GB RAM",10500000,"xiaomi-17-pro-1.jpg","YANGI"],
+    ["Xiaomi 15 Ultra","Xiaomi","512GB | 16GB RAM",13500000,"xiaomi-15-ultra-1.jpg","TOP"],
+    ["Xiaomi 15","Xiaomi","256GB | 12GB RAM",8500000,"xiaomi-15-1.jpg",""],
+    ["Xiaomi 14 Ultra","Xiaomi","512GB | 16GB RAM",11000000,"xiaomi-14-ultra-1.jpg",""],
+    ["Redmi Note 15 Pro+","Redmi","256GB | 12GB RAM",5500000,"xiaomi-redmi-note-15-pro-plus-1.jpg","YANGI"],
+    ["Redmi Note 15 Pro","Redmi","256GB | 8GB RAM",4500000,"xiaomi-redmi-note-15-pro-1.jpg",""],
+    ["Redmi Note 14 Pro+","Redmi","256GB | 12GB RAM",4800000,"xiaomi-redmi-note-14-pro-plus-1.jpg",""],
+    ["Redmi Note 14 Pro","Redmi","256GB | 8GB RAM",3800000,"xiaomi-redmi-note-14-pro-5g-1.jpg",""],
+    ["POCO F8 Ultra","POCO","512GB | 16GB RAM",9000000,"xiaomi-poco-f8-ultra-1.jpg","YANGI"],
+    ["POCO F7 Pro","POCO","256GB | 12GB RAM",6500000,"xiaomi-poco-f7-pro-1.jpg","TOP"],
+    ["POCO X7 Pro","POCO","256GB | 12GB RAM",4500000,"xiaomi-poco-x7-pro-1.jpg",""],
+
+    // HONOR
+    ["Honor Magic8 Pro","Honor","512GB | 12GB RAM",13500000,"honor-magic8-pro-1.jpg","YANGI"],
+    ["Honor Magic7 Pro","Honor","512GB | 12GB RAM",12000000,"honor-magic7-pro-1.jpg","TOP"],
+    ["Honor 600","Honor","256GB | 12GB RAM",7500000,"honor-600-1.jpg","YANGI"],
+    ["Honor X9d","Honor","256GB | 12GB RAM",4500000,"honor-x9d-1.jpg",""],
+    ["Honor X9c","Honor","256GB | 12GB RAM",4200000,"honor-x9c-1.jpg",""],
+    ["Honor 400 Pro","Honor","512GB | 12GB RAM",8500000,"honor-400-pro-1.jpg",""],
+    ["Honor 400","Honor","256GB | 12GB RAM",6000000,"honor-400-1.jpg",""],
+
+    // GOOGLE
+    ["Google Pixel 10 Pro XL","Google","256GB | 16GB RAM",13000000,"google-pixel-10-pro-xl-1.jpg","YANGI"],
+    ["Google Pixel 10 Pro","Google","256GB | 16GB RAM",11500000,"google-pixel-10-pro-1.jpg",""],
+    ["Google Pixel 9 Pro XL","Google","256GB | 16GB RAM",10500000,"google-pixel-9-pro-xl-1.jpg",""],
+    ["Google Pixel 9","Google","128GB | 12GB RAM",7500000,"google-pixel-9-1.jpg",""],
+
+    // ONEPLUS
+    ["OnePlus 15","OnePlus","512GB | 16GB RAM",12500000,"oneplus-15-1.jpg","YANGI"],
+    ["OnePlus 13","OnePlus","512GB | 16GB RAM",11000000,"oneplus-13-1.jpg",""],
+    ["OnePlus 13R","OnePlus","256GB | 12GB RAM",7500000,"oneplus-13r-1.jpg",""],
+
+    // OPPO
+    ["Oppo Find X9 Pro","Oppo","512GB | 16GB RAM",13500000,"oppo-find-x9-pro-1.jpg","YANGI"],
+    ["Oppo Find X8 Pro","Oppo","512GB | 16GB RAM",11500000,"oppo-find-x8-pro-1.jpg",""],
+    ["Oppo Reno14 Pro","Oppo","256GB | 12GB RAM",6500000,"oppo-reno14-pro-1.jpg",""],
+
+    // VIVO
+    ["Vivo X300 Pro","Vivo","512GB | 16GB RAM",14000000,"vivo-x300-pro-1.jpg","YANGI"],
+    ["Vivo X200 Pro","Vivo","512GB | 16GB RAM",12500000,"vivo-x200-pro-1.jpg",""],
+    ["Vivo V60","Vivo","256GB | 12GB RAM",6000000,"vivo-v60-1.jpg",""],
+
+    // REALME
+    ["Realme GT 8 Pro","Realme","512GB | 16GB RAM",11000000,"realme-gt-8-pro-1.jpg","YANGI"],
+    ["Realme GT 7 Pro","Realme","512GB | 16GB RAM",9000000,"realme-gt-7-pro-1.jpg",""],
+    ["Realme 15 Pro","Realme","256GB | 12GB RAM",6000000,"realme-15-pro-1.jpg",""],
+
+    // HUAWEI
+    ["Huawei Pura 80 Ultra","Huawei","512GB | 16GB RAM",15000000,"huawei-pura-80-ultra-1.jpg","YANGI"],
+    ["Huawei Pura 80 Pro","Huawei","512GB | 12GB RAM",12000000,"huawei-pura-80-pro-1.jpg",""],
+    ["Huawei Mate X6","Huawei","512GB | 16GB RAM",19000000,"huawei-mate-x6-1.jpg",""],
+
+    // MOTOROLA
+    ["Motorola Edge 60 Pro","Motorola","256GB | 12GB RAM",6500000,"motorola-edge-60-pro-1.jpg",""],
+    ["Motorola Razr 60 Ultra","Motorola","512GB | 16GB RAM",12000000,"motorola-razr-60-ultra-1.jpg",""]
+
+];
+
+const baseURL = "https://fdn2.gsmarena.com/vv/pics/";
+
+const brandFolder = {
+    Apple: "apple/",
+    Samsung: "samsung/",
+    Xiaomi: "xiaomi/",
+    Redmi: "xiaomi/",
+    POCO: "xiaomi/",
+    Honor: "honor/",
+    Google: "google/",
+    OnePlus: "oneplus/",
+    Oppo: "oppo/",
+    Vivo: "vivo/",
+    Realme: "realme/",
+    Huawei: "huawei/",
+    Motorola: "motorola/"
+};
+
+let cart = [];
+let selectedBrand = "all";
+let toastTimer;
+
+function renderBrands() {
+
+    let brands = [...new Set(phones.map(phone => phone[1]))];
+
+    document.getElementById("brand").innerHTML =
+        '<option value="all">Barcha brendlar</option>';
+
+    brands.forEach(brand => {
+        document.getElementById("brand").innerHTML +=
+            `<option value="${brand}">${brand}</option>`;
+    });
+
+    document.getElementById("categories").innerHTML =
+        `<button class="active" onclick="chooseBrand('all',this)">Barchasi</button>` +
+        brands.map(brand =>
+            `<button onclick="chooseBrand('${brand}',this)">${brand}</button>`
+        ).join("");
+}
+
+function chooseBrand(brand, button) {
+    selectedBrand = brand;
+    document.getElementById("brand").value = brand;
+    document.querySelectorAll(".categories button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+    button.classList.add("active");
+    filterPhones();
+}
+
+function showPhones(list) {
+
+    const products = document.getElementById("products");
+
+    products.innerHTML = "";
+
+    if (list.length === 0) {
+        products.innerHTML =
+            '<div class="empty">Telefon topilmadi 😕</div>';
+        return;
+    }
+
+    list.forEach(phone => {
+
+        let [name, brand, spec, price, image, badge] = phone;
+
+        let img = baseURL + brandFolder[brand] + image;
+
+        products.innerHTML += `
+            <div class="card">
+
+                ${badge ? `<span class="badge">${badge}</span>` : ""}
+
+                <img src="${img}"
+                     alt="${name}"
+                     loading="lazy"
+                     onerror="this.src='https://placehold.co/300x200?text=PhoneMarket'">
+
+                <span class="brand">${brand.toUpperCase()}</span>
+
+                <h3>${name}</h3>
+
+                <p class="spec">${spec}</p>
+
+                <div class="price">
+                    ${price.toLocaleString("uz-UZ")} so‘m
+                </div>
+
+                <button onclick="addCart('${name}')">
+                    🛒 Savatga qo‘shish
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+function filterPhones() {
+
+    let search = document.getElementById("search").value.toLowerCase();
+    let brand = document.getElementById("brand").value;
+    let sort = document.getElementById("sort").value;
+
+    let result = phones.filter(phone => {
+
+        let matchName = phone[0].toLowerCase().includes(search);
+        let matchBrand = brand === "all" || phone[1] === brand;
+
+        return matchName && matchBrand;
+    });
+
+    if (sort === "low") {
+        result.sort((a, b) => a[3] - b[3]);
+    }
+
+    if (sort === "high") {
+        result.sort((a, b) => b[3] - a[3]);
+    }
+
+    showPhones(result);
+}
+
+function addCart(name) {
+
+    let phone = phones.find(item => item[0] === name);
+
+    if (!phone) return;
+
+    cart.push(phone);
+
+    document.getElementById("cart").innerText =
+        "🛒 Savat: " + cart.length;
+
+    showToast(name + " savatga qo‘shildi!");
+
+}
+
+function showCart() {
+
+    if (cart.length === 0) {
+        alert("Savatingiz hozircha bo‘sh!");
+        return;
+    }
+
+    let total = cart.reduce((sum, phone) => sum + phone[3], 0);
+
+    let list = cart.map((phone, index) =>
+        (index + 1) + ". " + phone[0] + " - " +
+        phone[3].toLocaleString("uz-UZ") + " so‘m"
+    ).join("\n");
+
+    alert(
+        "SAVATINGIZ\n\n" + list +
+        "\n\nJami: " + total.toLocaleString("uz-UZ") + " so‘m"
+    );
+}
+
+function showToast(message) {
+
+    const toast = document.getElementById("toast");
+
+    toast.innerText = "✅ " + message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+
+document.getElementById("totalPhones").innerText = phones.length;
+
+renderBrands();
+showPhones(phones);
+
+</script>
+
+</body>
+</html>
+```
